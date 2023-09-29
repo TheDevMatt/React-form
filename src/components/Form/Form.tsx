@@ -18,7 +18,8 @@ const Form = () => {
         birthDate: null,
     })
 
-    const [validationError, setValidationError] = useState<string | null>(null);
+    const [continentSurnameValidation, setContinentSurnameValidation] = useState<string | null>(null);
+    const [nameValidation, setNameValidation] = useState<string | null>(null);
     const [success, setSuccess] = useState<boolean | null>(null);
     const [isButtonActive, setIsButtonActive] = useState<boolean>(false);
 
@@ -82,15 +83,17 @@ const Form = () => {
         e.preventDefault();
 
         if(data.continent === 'Europa' && data.surname.length < 2){
-            setValidationError("Nie spełnione kryteria");
+            setContinentSurnameValidation("Nie spełnione kryteria");
             return;
         }
         if(data.name === ''){
-            setValidationError("To pole jest wymagane");
+            setNameValidation("To pole jest wymagane");
             return;
         }  
 
-    setValidationError(null);
+    setContinentSurnameValidation(null);
+    setNameValidation(null);
+    document.body.style.fontSize = '1rem';
     setSuccess(true);
 
     setTimeout(() => {
@@ -119,13 +122,16 @@ const Form = () => {
                     <MenuItem value="Azja">Azja</MenuItem>
                     <MenuItem value="Europa">Europa</MenuItem>
                 </Select>
-                {validationError && (
-                    <Typography variant="body2" color="error">{validationError}</Typography>
+                {continentSurnameValidation && (
+                    <Typography variant="body2" color="error">{continentSurnameValidation}</Typography>
                 )}
                 </FormControl>
                 <FormControl fullWidth className='form-input-name'>
                     <InputLabel>Imię</InputLabel>
-                    <Input name="Imię" value={data.name} onChange={handleNameChange} required/>
+                    <Input name="Imię" value={data.name} onChange={handleNameChange}/>
+                {nameValidation && (
+                    <Typography variant="body2" color="error">{nameValidation}</Typography>
+                )}
                 </FormControl>
                 <FormControl fullWidth className='form-input-surname'>
                     <InputLabel>Nazwisko</InputLabel>
